@@ -1,0 +1,3 @@
+# Environment files
+.env
+email_sessions.json
