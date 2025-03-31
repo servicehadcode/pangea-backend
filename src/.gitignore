@@ -1,3 +1,4 @@
 # Environment files
-.env
+src/.env
 email_sessions.json
+test_mongodb.py
