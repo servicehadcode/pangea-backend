@@ -2,3 +2,9 @@
 src/.env
 email_sessions.json
 test_mongodb.py
+
+# Temporary files
+*.wav
+*.mp3
+*.temp
+*.tmp

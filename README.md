@@ -173,6 +173,113 @@ Error response format:
 }
 ```
 
+
+# Audio Transcription API
+
+This API provides functionality to transcribe audio files to text.
+
+## API Endpoint
+
+- **URL**: `/api/v1/transcribe`
+- **Method**: `POST`
+- **Content-Type**: `multipart/form-data`
+
+## Request Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| audio | File | Yes | Audio file to transcribe (WAV format) |
+| language | String | No | Language code (default: "en-US") |
+
+## Response Format
+
+### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "data": {
+    "transcription": "The transcribed text content",
+    "confidence": 0.95,
+    "processingTime": 1234.56,
+    "wordCount": 42,
+    "language": "en-US",
+    "timestamp": "2023-05-01T12:34:56.789"
+  }
+}
+```
+
+### Error Response (4xx/5xx)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "User-friendly error message",
+    "details": "Technical details (if available)"
+  }
+}
+```
+
+## Error Codes
+
+| Code | Description |
+|------|-------------|
+| MISSING_FILE | No audio file was provided in the request |
+| INVALID_FILE | The provided file is invalid (wrong format, too large, etc.) |
+| TRANSCRIPTION_FAILED | The transcription process failed |
+| SERVER_ERROR | An unexpected server error occurred |
+
+## Testing the API
+
+### Using the Test Script
+
+The repository includes a test script that can record audio from your microphone and send it to the API for transcription.
+
+1. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Make sure the Flask server is running:
+   ```bash
+   python src/app.py
+   ```
+
+3. Run the test script:
+   ```bash
+   python test_transcription.py [recording_duration]
+   ```
+
+   Where `[recording_duration]` is an optional parameter specifying how many seconds to record (default: 5 seconds).
+
+4. Follow the prompts to record your voice, and the script will automatically send the recording to the API and display the transcription results.
+
+### Using Postman or cURL
+
+You can also test the API using tools like Postman or cURL:
+
+```bash
+curl -X POST -F "audio=@path/to/your/audio.wav" -F "language=en-US" http://localhost:5000/api/v1/transcribe
+```
+
+## Implementation Details
+
+The API uses the following technologies:
+- Flask for the web server
+- SpeechRecognition library with Google's Speech Recognition API for transcription
+  - Uses Google's free Speech-to-Text service for accurate transcription
+  - Handles audio conversion using pydub instead of requiring FLAC utility
+- PyAudio for audio recording in the test script
+
+## Security Considerations
+
+- The API currently limits file sizes to 10MB
+- Only WAV format is supported
+- For production use, consider adding authentication, rate limiting, and HTTPS
+
+
 ## Environment Variables
 
 Required environment variables in `.env`:
