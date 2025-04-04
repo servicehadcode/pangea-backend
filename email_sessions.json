@@ -1,0 +1,344 @@
+{
+  "sessions": [
+    {
+      "id": "df2d6736-f2e6-47c6-a683-39f1b0f5b677",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:15:47.371979",
+      "status": "failed"
+    },
+    {
+      "id": "bc7d2c42-827b-49b6-aaa6-181328a72281",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:20:08.037767",
+      "status": "failed"
+    },
+    {
+      "id": "2e5d5a36-f743-4c70-93b7-eb70212ce6eb",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:21:37.992196",
+      "status": "failed"
+    },
+    {
+      "id": "238c8791-9a2d-4089-bbef-5a65ccb771b3",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:27:20.889857",
+      "status": "failed"
+    },
+    {
+      "id": "f5d95fc3-4463-481f-9ede-286aa3443969",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:27:22.658414",
+      "status": "failed"
+    },
+    {
+      "id": "9fed382b-ab14-4ce2-87dc-2c02fbbe96d8",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:29:34.417559",
+      "status": "failed"
+    },
+    {
+      "id": "2e0e5da4-907b-477f-ad02-476f31fe75cb",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test",
+      "message": "Test",
+      "time_invoked": "2025-03-26T08:31:44.291339",
+      "status": "failed"
+    },
+    {
+      "id": "4906d478-3d95-4473-9522-35c7be3c4d64",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:32:54.029459",
+      "status": "failed"
+    },
+    {
+      "id": "f0079f55-dbe3-4f1e-b278-d3fa12fd3c64",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:36:29.402356",
+      "status": "failed"
+    },
+    {
+      "id": "706be1c0-23a3-48a7-9244-0a84b0714c73",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:36:50.125659",
+      "status": "success"
+    },
+    {
+      "id": "1c90f9d8-48d0-4ec4-b8d7-794f74be1114",
+      "from_email": "",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:55:03.543936",
+      "status": "failed",
+      "type": "confirmation"
+    },
+    {
+      "id": "ea2c5278-be96-4c33-9bc8-5de2530f8bdd",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:57:46.467835",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "0b242c1d-ef22-412a-ba2a-db7ebc26afe9",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:57:47.913421",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "bc3bbf44-2ecb-482a-93e1-b0ca001135b3",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:57:49.716313",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "ab7e1cdd-83f7-4899-b17e-92ea1f214ecb",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:57:51.135345",
+      "status": "success",
+      "type": "confirmation"
+    },
+    {
+      "id": "dbdb5080-c7e9-435d-8180-9e95c7d9fe78",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:58:13.557285",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "889b7a15-9574-44c3-9ddd-479a29ca43f2",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:58:15.537835",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "46472ae2-3e79-4512-9dbb-37cbc976826f",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:58:17.482961",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "e5dd60b5-883f-4875-b478-18e91927131d",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test Email",
+      "message": "This is a test message from Postman",
+      "time_invoked": "2025-03-26T08:58:18.678722",
+      "status": "success",
+      "type": "confirmation"
+    },
+    {
+      "id": "bbe8106a-13dc-47f4-b2f3-b1a919b036e1",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Testing from UI",
+      "message": "This is a test message from UI.",
+      "time_invoked": "2025-03-26T08:59:17.585689",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "359d0d0c-8661-4701-9f59-63df376692db",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Testing from UI",
+      "message": "This is a test message from UI.",
+      "time_invoked": "2025-03-26T08:59:18.831661",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "08e262d0-107f-4fce-8c3e-9f460f61daa2",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Testing from UI",
+      "message": "This is a test message from UI.",
+      "time_invoked": "2025-03-26T08:59:20.583423",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "f74af412-b5a5-40e9-95c7-1e8496c7967c",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Testing from UI",
+      "message": "This is a test message from UI.",
+      "time_invoked": "2025-03-26T08:59:22.389558",
+      "status": "success",
+      "type": "confirmation"
+    },
+    {
+      "id": "e26dca5e-23f0-4933-8ee3-8fedca57a989",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Test",
+      "message": "Testing Message",
+      "time_invoked": "2025-03-27T16:56:10.752328",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "a605e044-b791-4b7b-b537-b4470143abef",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Test",
+      "message": "Testing Message",
+      "time_invoked": "2025-03-27T16:56:12.703671",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "64d4b60b-7ed8-47a9-8092-51fdfc3530b9",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Test",
+      "message": "Testing Message",
+      "time_invoked": "2025-03-27T16:56:14.235105",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "d161911c-2c5a-44be-81fa-00c032ee1b80",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Test",
+      "message": "Testing Message",
+      "time_invoked": "2025-03-27T16:56:15.685956",
+      "status": "success",
+      "type": "confirmation"
+    },
+    {
+      "id": "cf5c99ce-e493-47d7-b9f3-4d4ae75220a6",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Dibyanshu Chatterjee is inviting you to solve a problem",
+      "message": "Collaborate with Dibyanshu Chatterjee to solve a real world problem. http://localhost:8080/problems/software-dev/3",
+      "time_invoked": "2025-03-28T08:05:13.160376",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "f16cefb3-cd13-4312-af93-a2268e852b32",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Dibyanshu Chatterjee is inviting you to solve a problem",
+      "message": "Collaborate with Dibyanshu Chatterjee to solve a real world problem. http://localhost:8080/problems/software-dev/3",
+      "time_invoked": "2025-03-28T08:05:14.804043",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "49d0cc48-c433-4763-93db-33dff1f86e9b",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Dibyanshu Chatterjee is inviting you to solve a problem",
+      "message": "Collaborate with Dibyanshu Chatterjee to solve a real world problem. http://localhost:8080/problems/software-dev/3",
+      "time_invoked": "2025-03-28T08:05:16.350969",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "296dc581-cccd-4d27-a48b-a1daca595f2f",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dc7017@rit.edu",
+      "subject": "Dibyanshu Chatterjee is inviting you to solve a problem",
+      "message": "Collaborate with Dibyanshu Chatterjee to solve a real world problem. http://localhost:8080/problems/software-dev/3",
+      "time_invoked": "2025-03-28T08:05:17.928958",
+      "status": "success",
+      "type": "confirmation"
+    },
+    {
+      "id": "7ac620ee-6296-4a5f-81f1-9872bee406aa",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Someone New is inviting you to solve a problem",
+      "message": "Collaborate with Someone New to solve a real world problem. http://localhost:8080/problems/data-science/2",
+      "time_invoked": "2025-03-28T08:07:16.161773",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "e63b7cf4-5426-4d9b-ab4a-24c63cd7f360",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "soniankit.ec@gmail.com",
+      "subject": "Someone New is inviting you to solve a problem",
+      "message": "Collaborate with Someone New to solve a real world problem. http://localhost:8080/problems/data-science/2",
+      "time_invoked": "2025-03-28T08:07:17.365348",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "603a2cc7-994b-466f-ac44-36fe021dfb90",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Harshilchamp16@gmail.com",
+      "subject": "Someone New is inviting you to solve a problem",
+      "message": "Collaborate with Someone New to solve a real world problem. http://localhost:8080/problems/data-science/2",
+      "time_invoked": "2025-03-28T08:07:18.549048",
+      "status": "success",
+      "type": "notification"
+    },
+    {
+      "id": "4f90dcbf-ab03-4cce-86df-0f4ef8d02553",
+      "from_email": "dibyanshu.chatterjee.27@gmail.com",
+      "to_email": "Dibyanshu.chatterjee.27@gmail.com",
+      "subject": "Someone New is inviting you to solve a problem",
+      "message": "Collaborate with Someone New to solve a real world problem. http://localhost:8080/problems/data-science/2",
+      "time_invoked": "2025-03-28T08:07:19.944626",
+      "status": "success",
+      "type": "confirmation"
+    }
+  ]
+}

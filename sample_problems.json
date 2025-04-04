@@ -1,0 +1,404 @@
+{
+  "problems": [
+    {
+      "problem_num": "SD001",
+      "title": "Build a Real-time Chat Application",
+      "description": "Create a scalable real-time chat application using WebSocket technology",
+      "longDescription": "Develop a full-stack chat application that supports real-time messaging, user presence, and message history. The application should handle multiple chat rooms and direct messaging between users.",
+      "difficulty": "intermediate",
+      "category": "software-dev",
+      "requirements": {
+        "time": "2-3 weeks",
+        "skills": ["JavaScript", "WebSocket", "Node.js", "React"],
+        "prerequisites": ["Basic web development", "REST APIs"]
+      },
+      "tags": ["web-dev", "real-time", "websocket", "full-stack"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Set up WebSocket server using Node.js and Socket.io"
+        },
+        {
+          "step": 2,
+          "description": "Create React frontend with chat interface"
+        },
+        {
+          "step": 3,
+          "description": "Implement user authentication"
+        }
+      ],
+      "resources": [
+        {
+          "type": "documentation",
+          "url": "https://socket.io/docs/v4/",
+          "description": "Socket.io official documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-15",
+        "author": "John Smith",
+        "lastUpdated": "2024-03-20"
+      }
+    },
+    {
+      "problem_num": "DS001",
+      "title": "Customer Churn Prediction",
+      "description": "Build a machine learning model to predict customer churn for a subscription service",
+      "longDescription": "Analyze historical customer data to create a predictive model that identifies customers likely to cancel their subscription. Use various ML techniques to achieve high accuracy.",
+      "difficulty": "advanced",
+      "category": "data-science",
+      "requirements": {
+        "time": "4 weeks",
+        "skills": ["Python", "Scikit-learn", "Pandas", "SQL"],
+        "prerequisites": ["Machine Learning basics", "Data preprocessing"]
+      },
+      "tags": ["machine-learning", "classification", "data-analysis"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Data collection and preprocessing"
+        },
+        {
+          "step": 2,
+          "description": "Feature engineering and selection"
+        },
+        {
+          "step": 3,
+          "description": "Model training and evaluation"
+        }
+      ],
+      "resources": [
+        {
+          "type": "dataset",
+          "url": "https://www.kaggle.com/datasets/customer-churn",
+          "description": "Sample customer churn dataset"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-10",
+        "author": "Sarah Johnson",
+        "lastUpdated": "2024-03-18"
+      }
+    },
+    {
+      "problem_num": "SD002",
+      "title": "E-commerce Shopping Cart API",
+      "description": "Design and implement a RESTful API for an e-commerce shopping cart",
+      "longDescription": "Create a robust API that handles product management, cart operations, and order processing with proper error handling and validation.",
+      "difficulty": "intermediate",
+      "category": "software-dev",
+      "requirements": {
+        "time": "2 weeks",
+        "skills": ["Python", "Flask/Django", "REST API", "MongoDB"],
+        "prerequisites": ["API design", "Database design"]
+      },
+      "tags": ["backend", "api", "e-commerce"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Design API endpoints and data models"
+        },
+        {
+          "step": 2,
+          "description": "Implement CRUD operations"
+        },
+        {
+          "step": 3,
+          "description": "Add authentication and authorization"
+        }
+      ],
+      "resources": [
+        {
+          "type": "tutorial",
+          "url": "https://flask-restful.readthedocs.io/",
+          "description": "Flask-RESTful documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-12",
+        "author": "Mike Wilson",
+        "lastUpdated": "2024-03-19"
+      }
+    },
+    {
+      "problem_num": "DS002",
+      "title": "Sentiment Analysis Dashboard",
+      "description": "Create a dashboard for real-time social media sentiment analysis",
+      "longDescription": "Build a system that collects social media data, performs sentiment analysis, and displays results in a real-time dashboard with visualizations.",
+      "difficulty": "intermediate",
+      "category": "data-science",
+      "requirements": {
+        "time": "3 weeks",
+        "skills": ["Python", "NLP", "Dashboard tools", "APIs"],
+        "prerequisites": ["Text processing", "Data visualization"]
+      },
+      "tags": ["nlp", "dashboard", "real-time-analytics"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Set up data collection from social media APIs"
+        },
+        {
+          "step": 2,
+          "description": "Implement sentiment analysis model"
+        },
+        {
+          "step": 3,
+          "description": "Create interactive dashboard"
+        }
+      ],
+      "resources": [
+        {
+          "type": "library",
+          "url": "https://www.nltk.org/",
+          "description": "NLTK documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-14",
+        "author": "Emily Chen",
+        "lastUpdated": "2024-03-21"
+      }
+    },
+    {
+      "problem_num": "SD003",
+      "title": "Automated Testing Framework",
+      "description": "Build a custom automated testing framework for web applications",
+      "longDescription": "Develop a framework that combines unit testing, integration testing, and end-to-end testing with reporting capabilities.",
+      "difficulty": "advanced",
+      "category": "software-dev",
+      "requirements": {
+        "time": "4 weeks",
+        "skills": ["Python", "Selenium", "PyTest", "CI/CD"],
+        "prerequisites": ["Testing methodologies", "Python programming"]
+      },
+      "tags": ["testing", "automation", "quality-assurance"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Design framework architecture"
+        },
+        {
+          "step": 2,
+          "description": "Implement test runners and reporters"
+        },
+        {
+          "step": 3,
+          "description": "Create sample test suites"
+        }
+      ],
+      "resources": [
+        {
+          "type": "documentation",
+          "url": "https://docs.pytest.org/",
+          "description": "PyTest documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-16",
+        "author": "Alex Turner",
+        "lastUpdated": "2024-03-22"
+      }
+    },
+    {
+      "problem_num": "DS003",
+      "title": "Image Classification Model",
+      "description": "Develop a deep learning model for image classification",
+      "longDescription": "Create and train a convolutional neural network for classifying images into multiple categories with high accuracy.",
+      "difficulty": "advanced",
+      "category": "data-science",
+      "requirements": {
+        "time": "3 weeks",
+        "skills": ["Python", "TensorFlow/PyTorch", "CNN", "GPU Computing"],
+        "prerequisites": ["Deep Learning basics", "Computer Vision"]
+      },
+      "tags": ["deep-learning", "computer-vision", "neural-networks"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Prepare and preprocess image dataset"
+        },
+        {
+          "step": 2,
+          "description": "Design and train CNN model"
+        },
+        {
+          "step": 3,
+          "description": "Evaluate and optimize model performance"
+        }
+      ],
+      "resources": [
+        {
+          "type": "tutorial",
+          "url": "https://pytorch.org/tutorials/",
+          "description": "PyTorch tutorials"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-17",
+        "author": "David Lee",
+        "lastUpdated": "2024-03-23"
+      }
+    },
+    {
+      "problem_num": "SD004",
+      "title": "Microservices Architecture",
+      "description": "Convert a monolithic application into microservices",
+      "longDescription": "Break down a monolithic application into microservices while maintaining functionality and adding service discovery and load balancing.",
+      "difficulty": "advanced",
+      "category": "software-dev",
+      "requirements": {
+        "time": "6 weeks",
+        "skills": ["Docker", "Kubernetes", "Microservices", "API Gateway"],
+        "prerequisites": ["System design", "Container orchestration"]
+      },
+      "tags": ["microservices", "docker", "kubernetes", "devops"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Analyze and plan service boundaries"
+        },
+        {
+          "step": 2,
+          "description": "Implement individual microservices"
+        },
+        {
+          "step": 3,
+          "description": "Set up service mesh and monitoring"
+        }
+      ],
+      "resources": [
+        {
+          "type": "documentation",
+          "url": "https://kubernetes.io/docs/",
+          "description": "Kubernetes documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-18",
+        "author": "Robert Martin",
+        "lastUpdated": "2024-03-24"
+      }
+    },
+    {
+      "problem_num": "DS004",
+      "title": "Time Series Forecasting",
+      "description": "Build a time series forecasting model for sales prediction",
+      "longDescription": "Develop a model that can predict future sales based on historical data using various time series analysis techniques.",
+      "difficulty": "intermediate",
+      "category": "data-science",
+      "requirements": {
+        "time": "3 weeks",
+        "skills": ["Python", "Stats Models", "Prophet", "Time Series Analysis"],
+        "prerequisites": ["Statistics", "Data Analysis"]
+      },
+      "tags": ["forecasting", "time-series", "business-analytics"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Data preprocessing and feature engineering"
+        },
+        {
+          "step": 2,
+          "description": "Model selection and training"
+        },
+        {
+          "step": 3,
+          "description": "Forecast validation and visualization"
+        }
+      ],
+      "resources": [
+        {
+          "type": "library",
+          "url": "https://facebook.github.io/prophet/",
+          "description": "Prophet documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-19",
+        "author": "Lisa Wang",
+        "lastUpdated": "2024-03-25"
+      }
+    },
+    {
+      "problem_num": "SD005",
+      "title": "Blockchain Smart Contract",
+      "description": "Create a smart contract for a decentralized application",
+      "longDescription": "Develop and deploy a smart contract on Ethereum blockchain for a decentralized voting system.",
+      "difficulty": "advanced",
+      "category": "software-dev",
+      "requirements": {
+        "time": "4 weeks",
+        "skills": ["Solidity", "Web3.js", "Ethereum", "Smart Contracts"],
+        "prerequisites": ["Blockchain basics", "JavaScript"]
+      },
+      "tags": ["blockchain", "ethereum", "smart-contracts", "dapp"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Design smart contract architecture"
+        },
+        {
+          "step": 2,
+          "description": "Implement and test contract"
+        },
+        {
+          "step": 3,
+          "description": "Deploy and integrate with frontend"
+        }
+      ],
+      "resources": [
+        {
+          "type": "documentation",
+          "url": "https://docs.soliditylang.org/",
+          "description": "Solidity documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-20",
+        "author": "James Brown",
+        "lastUpdated": "2024-03-26"
+      }
+    },
+    {
+      "problem_num": "DS005",
+      "title": "Recommendation System",
+      "description": "Build a collaborative filtering recommendation system",
+      "longDescription": "Create a recommendation system that suggests products to users based on their past behavior and similar users' preferences.",
+      "difficulty": "intermediate",
+      "category": "data-science",
+      "requirements": {
+        "time": "3 weeks",
+        "skills": ["Python", "Collaborative Filtering", "Matrix Factorization"],
+        "prerequisites": ["Linear Algebra", "Machine Learning"]
+      },
+      "tags": ["recommender-systems", "machine-learning", "collaborative-filtering"],
+      "steps": [
+        {
+          "step": 1,
+          "description": "Data collection and preprocessing"
+        },
+        {
+          "step": 2,
+          "description": "Implement collaborative filtering algorithm"
+        },
+        {
+          "step": 3,
+          "description": "Evaluate recommendation quality"
+        }
+      ],
+      "resources": [
+        {
+          "type": "tutorial",
+          "url": "https://surprise.readthedocs.io/",
+          "description": "Surprise library documentation"
+        }
+      ],
+      "metadata": {
+        "created": "2024-03-21",
+        "author": "Rachel Green",
+        "lastUpdated": "2024-03-27"
+      }
+    }
+  ]
+}
