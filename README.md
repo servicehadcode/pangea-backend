@@ -20,9 +20,19 @@ python src/app.py
 
 ### Problems API
 
+#### Schema Overview
+The problem schema has been updated with the following new fields:
+
+1. **Steps with Details and Acceptance Criteria**: Each step now includes:
+   - A `details` array containing strings with additional information
+   - An `acceptanceCriteria` array containing strings defining the criteria for that step
+2. **Git Repository**: The `metadata` object now includes a `gitRepo` field with the repository URL.
+3. **Downloadable Items**: A list of strings describing items that can be downloaded.
+4. **Preparation Steps**: A list of strings describing steps to prepare for the problem.
+
 #### 1. Get All Problems
 - **Endpoint:** `GET /api/problems`
-- **Query Parameters:** 
+- **Query Parameters:**
   - `category` (optional): Filter problems by category
 - **Response:**
 ```json
@@ -36,9 +46,23 @@ python src/app.py
         "category": "string",
         "requirements": {},
         "tags": [],
-        "steps": [],
+        "steps": [
+            {
+                "step": "number",
+                "description": "string",
+                "details": ["string"],
+                "acceptanceCriteria": ["string"]
+            }
+        ],
         "resources": [],
-        "metadata": {}
+        "metadata": {
+            "created": "string",
+            "author": "string",
+            "lastUpdated": "string",
+            "gitRepo": "string"
+        },
+        "downloadableItems": ["string"],
+        "preparationSteps": ["string"]
     }
 ]
 ```
@@ -56,9 +80,23 @@ python src/app.py
     "category": "string",
     "requirements": {},
     "tags": [],
-    "steps": [],
+    "steps": [
+        {
+            "step": "number",
+            "description": "string",
+            "details": ["string"],
+            "acceptanceCriteria": ["string"]
+        }
+    ],
     "resources": [],
-    "metadata": {}
+    "metadata": {
+        "created": "string",
+        "author": "string",
+        "lastUpdated": "string",
+        "gitRepo": "string"
+    },
+    "downloadableItems": ["string"],
+    "preparationSteps": ["string"]
 }
 ```
 
@@ -83,7 +121,9 @@ python src/app.py
     "steps": [
         {
             "step": "number",
-            "description": "string"
+            "description": "string",
+            "details": ["string"],
+            "acceptanceCriteria": ["string"]
         }
     ],
     "resources": [
@@ -96,8 +136,11 @@ python src/app.py
     "metadata": {
         "created": "string",
         "author": "string",
-        "lastUpdated": "string"
-    }
+        "lastUpdated": "string",
+        "gitRepo": "string"
+    },
+    "downloadableItems": ["string"],
+    "preparationSteps": ["string"]
 }
 ```
 - **Response:**
@@ -110,12 +153,25 @@ python src/app.py
 #### 4. Update Problem
 - **Endpoint:** `PUT /api/updateProblem/{problem_num}`
 - **Headers:** `Content-Type: application/json`
-- **Request Body:** 
+- **Request Body:**
 ```json
 {
     "title": "string",
     "difficulty": "string",
-    "requirements": {}
+    "requirements": {},
+    "steps": [
+        {
+            "step": "number",
+            "description": "string",
+            "details": ["string"],
+            "acceptanceCriteria": ["string"]
+        }
+    ],
+    "metadata": {
+        "gitRepo": "string"
+    },
+    "downloadableItems": ["string"],
+    "preparationSteps": ["string"]
     // Any other fields that need to be updated
 }
 ```
@@ -299,6 +355,76 @@ FOUNDERS_EMAIL=email1@example.com,email2@example.com
 ## Testing
 
 Use the provided Postman collection for testing the APIs. Import the collection from `problems_api_collection.json`.
+
+### Example Problem with New Schema
+
+Here's an example of a complete problem with all the new schema fields:
+
+```json
+{
+  "problem_num": "P005",
+  "title": "Build a Recommendation System",
+  "description": "Create a content-based recommendation system for an e-commerce platform",
+  "longDescription": "Develop a recommendation engine that analyzes user behavior and product attributes to suggest relevant items to users.",
+  "difficulty": "intermediate",
+  "category": "data-science",
+  "requirements": {
+    "time": "3 weeks",
+    "skills": ["Python", "Machine Learning", "Data Analysis"],
+    "prerequisites": ["Basic ML knowledge", "Data processing"]
+  },
+  "tags": ["recommendation-system", "machine-learning", "e-commerce"],
+  "steps": [
+    {
+      "step": 1,
+      "description": "Data collection and preprocessing",
+      "details": [
+        "Gather user interaction data (clicks, purchases, ratings)",
+        "Clean and normalize the dataset",
+        "Split into training and testing sets"
+      ],
+      "acceptanceCriteria": [
+        "Dataset contains at least 10,000 user interactions",
+        "Data is properly normalized and cleaned",
+        "Training/testing split follows 80/20 ratio"
+      ]
+    },
+    {
+      "step": 2,
+      "description": "Feature engineering",
+      "details": [
+        "Extract relevant features from product metadata",
+        "Create user profiles based on historical interactions"
+      ],
+      "acceptanceCriteria": [
+        "Feature extraction is documented and justified",
+        "User profiles accurately reflect browsing and purchase history"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "type": "article",
+      "url": "https://example.com/recommendation-systems",
+      "description": "Introduction to recommendation systems"
+    }
+  ],
+  "metadata": {
+    "created": "2024-04-05",
+    "author": "Alex Johnson",
+    "lastUpdated": "2024-04-05",
+    "gitRepo": "https://github.com/example/recommendation-system"
+  },
+  "downloadableItems": [
+    "Sample dataset (CSV)",
+    "System architecture diagram (PDF)"
+  ],
+  "preparationSteps": [
+    "Install Python 3.8+ and required libraries",
+    "Set up a virtual environment for the project"
+  ]
+}
+```
 
 ## Development
 
