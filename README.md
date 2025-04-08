@@ -426,6 +426,305 @@ Here's an example of a complete problem with all the new schema fields:
 }
 ```
 
+
+# Problem Instance API Documentation
+
+This API provides endpoints for managing problem instances and subtasks.
+
+## GET Endpoints
+
+### Get Problem Instance
+
+- **Endpoint:** `GET /api/problem-instances/:problemNum/:userId`
+- **Description:** Retrieves the specific instance of a user working on a problem
+- **URL Parameters:**
+  - `problemNum`: The problem number
+  - `userId`: The user ID
+- **Response:**
+```json
+{
+  "problemNum": "P001",
+  "owner": {
+    "userId": "user123",
+    "username": "johndoe",
+    "email": "john@example.com"
+  },
+  "collaborationMode": "solo",
+  "collaborators": [],
+  "status": "in-progress",
+  "startedAt": "2023-05-01T12:34:56.789",
+  "lastUpdatedAt": "2023-05-01T12:34:56.789",
+  "completedAt": null,
+  "_id": "60a1b2c3d4e5f6g7h8i9j0k1"
+}
+```
+
+### Get Subtask Instances
+
+- **Endpoint:** `GET /api/problem-instances/:instanceId/subtasks`
+- **Description:** Gets all subtask instances for a specific problem instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+- **Response:**
+```json
+[
+  {
+    "problemInstanceId": "60a1b2c3d4e5f6g7h8i9j0k1",
+    "stepNum": 1,
+    "assignee": {
+      "userId": "user123",
+      "username": "johndoe"
+    },
+    "reporter": {
+      "userId": "user456",
+      "username": "janedoe"
+    },
+    "status": "in-progress",
+    "branchCreated": true,
+    "prCreated": false,
+    "deliverables": "Implemented data collection module",
+    "acceptanceCriteria": [
+      {
+        "criteriaText": "Data is properly normalized",
+        "completed": true
+      },
+      {
+        "criteriaText": "Test coverage is at least 80%",
+        "completed": false
+      }
+    ],
+    "prFeedback": [],
+    "startedAt": "2023-05-01T12:34:56.789",
+    "completedAt": null,
+    "_id": "60a1b2c3d4e5f6g7h8i9j0k2"
+  }
+]
+```
+
+### Get Single Subtask Instance
+
+- **Endpoint:** `GET /api/subtask-instances/:subtaskId`
+- **Description:** Gets a specific subtask instance by ID
+- **URL Parameters:**
+  - `subtaskId`: The subtask instance ID
+- **Response:**
+```json
+{
+  "problemInstanceId": "60a1b2c3d4e5f6g7h8i9j0k1",
+  "stepNum": 1,
+  "assignee": {
+    "userId": "user123",
+    "username": "johndoe"
+  },
+  "reporter": {
+    "userId": "user456",
+    "username": "janedoe"
+  },
+  "status": "in-progress",
+  "branchCreated": true,
+  "prCreated": false,
+  "deliverables": "Implemented data collection module",
+  "acceptanceCriteria": [
+    {
+      "criteriaText": "Data is properly normalized",
+      "completed": true
+    },
+    {
+      "criteriaText": "Test coverage is at least 80%",
+      "completed": false
+    }
+  ],
+  "prFeedback": [],
+  "startedAt": "2023-05-01T12:34:56.789",
+  "completedAt": null,
+  "_id": "60a1b2c3d4e5f6g7h8i9j0k2"
+}
+```
+
+### Get Collaborators
+
+- **Endpoint:** `GET /api/problem-instances/:instanceId/collaborators`
+- **Description:** Gets all collaborators for a problem instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+- **Response:**
+```json
+[
+  {
+    "userId": "user456",
+    "username": "janedoe",
+    "email": "jane@example.com",
+    "invitedAt": "2023-05-01T12:34:56.789",
+    "joinedAt": "2023-05-01T13:45:56.789",
+    "status": "active"
+  }
+]
+```
+
+## POST Endpoints
+
+### Create Problem Instance
+
+- **Endpoint:** `POST /api/problem-instances`
+- **Description:** Creates a new instance when a user starts working on a problem
+- **Request Body:**
+```json
+{
+  "problemNum": "P001",
+  "owner": {
+    "userId": "user123",
+    "username": "johndoe",
+    "email": "john@example.com"
+  },
+  "collaborationMode": "solo"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Problem instance created successfully",
+  "instanceId": "60a1b2c3d4e5f6g7h8i9j0k1"
+}
+```
+
+### Add Collaborator
+
+- **Endpoint:** `POST /api/problem-instances/:instanceId/collaborators`
+- **Description:** Adds a collaborator to a problem instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+- **Request Body:**
+```json
+{
+  "userId": "user456",
+  "username": "janedoe",
+  "email": "jane@example.com"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Collaborator added successfully"
+}
+```
+
+### Create Subtask Instance
+
+- **Endpoint:** `POST /api/problem-instances/:instanceId/subtasks`
+- **Description:** Creates a subtask instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+- **Request Body:**
+```json
+{
+  "stepNum": 1,
+  "assignee": {
+    "userId": "user123",
+    "username": "johndoe"
+  },
+  "reporter": {
+    "userId": "user456",
+    "username": "janedoe"
+  },
+  "status": "not-started"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Subtask instance created successfully",
+  "subtaskId": "60a1b2c3d4e5f6g7h8i9j0k2"
+}
+```
+
+## PATCH Endpoints
+
+### Update Problem Instance Status
+
+- **Endpoint:** `PATCH /api/problem-instances/:instanceId`
+- **Description:** Updates the status of a problem instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+- **Request Body:**
+```json
+{
+  "status": "completed",
+  "completedAt": "2023-05-10T15:30:45.123"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Problem instance status updated successfully"
+}
+```
+
+### Update Subtask Instance
+
+- **Endpoint:** `PATCH /api/problem-instances/:instanceId/subtasks/:subtaskId`
+- **Description:** Updates a subtask instance
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+  - `subtaskId`: The subtask instance ID
+- **Request Body:**
+```json
+{
+  "assignee": {
+    "userId": "user789",
+    "username": "bobsmith"
+  },
+  "status": "in-progress",
+  "branchCreated": true,
+  "prCreated": false,
+  "deliverables": "Implemented the data collection module"
+}
+```
+- **Response:**
+```json
+{
+  "message": "Subtask instance updated successfully"
+}
+```
+
+### Update Acceptance Criteria Status
+
+- **Endpoint:** `PATCH /api/problem-instances/:instanceId/subtasks/:subtaskId/criteria/:criteriaId`
+- **Description:** Updates the status of a specific acceptance criterion
+- **URL Parameters:**
+  - `instanceId`: The problem instance ID
+  - `subtaskId`: The subtask instance ID
+  - `criteriaId`: The ID or index of the criterion
+- **Request Body:**
+```json
+{
+  "completed": true
+}
+```
+- **Response:**
+```json
+{
+  "message": "Acceptance criterion updated successfully"
+}
+```
+
+## Error Responses
+
+### Not Found (404)
+```json
+{
+  "error": "Problem instance not found"
+}
+```
+
+### Server Error (500)
+```json
+{
+  "error": "Error message details"
+}
+```
+
+
+
 ## Development
 
 - Python 3.x
