@@ -731,3 +731,16 @@ This API provides endpoints for managing problem instances and subtasks.
 - Flask 2.0.1
 - MongoDB 4.x
 - Additional requirements listed in `requirements.txt`
+
+
+
+
+
+
+
+
+
+# Pangea Context API
+
+chmod +x run.sh 
+./run.sh
