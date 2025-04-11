@@ -306,3 +306,16 @@ Use the provided Postman collection for testing the APIs. Import the collection 
 - Flask 2.0.1
 - MongoDB 4.x
 - Additional requirements listed in `requirements.txt`
+
+
+
+
+
+
+
+
+
+# Pangea Context API
+
+chmod +x run.sh 
+./run.sh

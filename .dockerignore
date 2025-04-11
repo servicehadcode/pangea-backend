@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+*.wav
+*.mp3
+*.temp
+*.tmp
+.git
+.gitignore
+Dockerfile
+.dockerignore
