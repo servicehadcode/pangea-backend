@@ -7,6 +7,10 @@ from models.transcription import Transcription
 from werkzeug.utils import secure_filename
 import tempfile
 import io
+import openai
+
+
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 class TranscriptionService:
     def __init__(self):
@@ -109,3 +113,58 @@ class TranscriptionService:
                     os.unlink(temp_file.name)
                 except:
                     pass
+
+    def generate_feedback(self, question, transcribed_text):
+        """
+        Generates feedback using OpenAI's GPT model.
+        """
+        try:
+            prompt = f"""
+            You are an interviewer providing feedback on a candidate's answer.
+            
+            Question: {question}
+            Answer: {transcribed_text}
+            
+            Provide a score between 0 and 100, strengths, improvements, and overall feedback.
+            Format your response as a JSON object with the following keys:
+            score: (integer)
+            strengths: (list of strings)
+            improvements: (list of strings)
+            overallFeedback: (string)
+            """
+
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful interviewer."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.2,  # Lower temperature for more consistent outputs
+            )
+
+            feedback_text = response.choices[0].message.content
+            # Attempt to parse the response as JSON
+            try:
+                import json
+                feedback = json.loads(feedback_text)
+                # Ensure score is an integer
+                feedback['score'] = int(feedback['score'])
+                print(f"Received feedback: {feedback}")
+                return feedback
+            except (json.JSONDecodeError, KeyError, ValueError) as e:
+                print(f"Error parsing OpenAI response: {e}")
+                return {
+                    "score": 0,
+                    "strengths": [],
+                    "improvements": ["Could not generate feedback at this time. Please try again."],
+                    "overallFeedback": "Evaluation failed. Please try again later."
+                }
+
+        except Exception as e:
+            print(f"Error calling OpenAI: {e}")
+            return {
+                "score": 0,
+                "strengths": [],
+                "improvements": ["Could not generate feedback at this time. Please try again."],
+                "overallFeedback": "Evaluation failed. Please try again later."
+            }
