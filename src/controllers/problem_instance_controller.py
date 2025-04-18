@@ -185,13 +185,14 @@ def create_subtask_instance(instance_id):
         return jsonify({'error': str(e)}), 500
 
 @problem_instance_blueprint.route('/problem-instances/<instance_id>', methods=['PATCH'])
-def update_problem_instance_status(instance_id):
+def update_problem_instance(instance_id):
     """
-    Update the status of a problem instance.
+    Update a problem instance.
 
-    Request body should contain:
+    Request body can contain any fields to update, including:
     - status: The new status
-    - completedAt: (Optional) Timestamp when the problem was completed
+    - completedAt: Timestamp when the problem was completed
+    - collaborationMode: 'solo' or 'pair'
 
     Returns:
         JSON response with success message or error
@@ -199,21 +200,25 @@ def update_problem_instance_status(instance_id):
     try:
         data = request.get_json()
 
-        # Validate required fields
-        if 'status' not in data:
-            return jsonify({'error': 'Status is required'}), 400
-
-        # Update the problem instance status
-        success, error = problem_instance_service.update_problem_instance_status(
-            instance_id,
-            data['status'],
-            data.get('completedAt')
-        )
+        # Check if this is a status-only update (for backward compatibility)
+        if 'status' in data and len(data) <= 2 and ('completedAt' in data or len(data) == 1):
+            # Use the original status update method
+            success, error = problem_instance_service.update_problem_instance_status(
+                instance_id,
+                data['status'],
+                data.get('completedAt')
+            )
+        else:
+            # Use the new general update method
+            success, error = problem_instance_service.update_problem_instance(
+                instance_id,
+                data
+            )
 
         if not success:
-            return jsonify({'error': error or 'Failed to update problem instance status'}), 400
+            return jsonify({'error': error or 'Failed to update problem instance'}), 400
 
-        return jsonify({'message': 'Problem instance status updated successfully'}), 200
+        return jsonify({'message': 'Problem instance updated successfully'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

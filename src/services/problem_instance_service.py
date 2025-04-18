@@ -198,3 +198,45 @@ class ProblemInstanceService:
         except Exception as e:
             print(f"Error updating problem instance status: {str(e)}")
             return False, str(e)
+
+    def update_problem_instance(self, instance_id: str, update_data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+        """
+        Update any fields of a problem instance.
+
+        Args:
+            instance_id: The problem instance ID
+            update_data: Dictionary containing fields to update
+
+        Returns:
+            Tuple of (success, error_message)
+        """
+        try:
+            # Try to convert the instance_id to ObjectId
+            try:
+                obj_id = ObjectId(instance_id)
+            except Exception as e:
+                return False, f"Invalid ObjectId format: {str(e)}"
+
+            # Check if the instance exists
+            instance = self.collection.find_one({'_id': obj_id})
+            if not instance:
+                return False, "Problem instance not found"
+
+            # Always update lastUpdatedAt
+            update_data['lastUpdatedAt'] = datetime.now().isoformat()
+
+            # Handle special case for status='completed'
+            if update_data.get('status') == 'completed' and not update_data.get('completedAt') and not instance.get('completedAt'):
+                update_data['completedAt'] = datetime.now().isoformat()
+
+            # Update the instance
+            result: UpdateResult = self.collection.update_one(
+                {'_id': obj_id},
+                {'$set': update_data}
+            )
+
+            return result.modified_count > 0, None
+
+        except Exception as e:
+            print(f"Error updating problem instance: {str(e)}")
+            return False, str(e)
