@@ -15,11 +15,6 @@ class GitService:
             raise ValueError("GITHUB_TOKEN environment variable is not set")
         self.github = Github(self.github_token)
         self.session = self._create_session()
-    
-    def __init__(self):
-        self.github_token = os.getenv('GITHUB_TOKEN', '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')
-        self.github = Github(self.github_token)
-        self.session = self._create_session()
 
     def _create_session(self) -> requests.Session:
         """Create a session for GitHub API requests"""

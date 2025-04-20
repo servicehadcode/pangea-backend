@@ -3,18 +3,11 @@
 src/.env
 email_sessions.json
 
-# Test files
-test_mongodb.py
-test_problem_instance_api.py
-test_subtask_instance_api.py
-test_problem_instance_post_patch_api.py
-test_git_api.py
-test_problem_schema.py
-test_problem_schema_updated.py
-test_transcription.py
-
 # Temporary files
 *.wav
 *.mp3
 *.temp
 *.tmp
+
+# Other json files
+*.json
