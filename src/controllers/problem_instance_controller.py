@@ -50,6 +50,25 @@ def get_subtask_instances(instance_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@problem_instance_blueprint.route('/problem-instances/<instance_id>', methods=['GET'])
+def get_problem_instance_by_id(instance_id):
+    """
+    Get a problem instance by its ID.
+
+    Args:
+        instance_id: The problem instance ID
+
+    Returns:
+        JSON response with problem instance data or error
+    """
+    try:
+        instance = problem_instance_service.get_problem_instance_by_id(instance_id)
+        if not instance:
+            return jsonify({'error': 'Problem instance not found'}), 404
+        return jsonify(instance.to_dict()), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @problem_instance_blueprint.route('/problem-instances/<instance_id>/collaborators', methods=['GET'])
 def get_collaborators(instance_id):
     """
@@ -81,6 +100,7 @@ def create_problem_instance():
     - problemNum: The problem number
     - owner: Object with userId, username, and email
     - collaborationMode: 'solo' or 'pair'
+    - gitUsername: (Optional) The Git username for the user
 
     Returns:
         JSON response with success message and instance ID, or error

@@ -1,155 +1,178 @@
+from typing import Tuple, Optional, Dict, Any
 import os
-from git import Repo, GitCommandError
-import logging
-import subprocess
+import json
+import requests
+from github import Github
+from dotenv import load_dotenv
+from urllib.parse import urlparse
+
+load_dotenv()
 
 class GitService:
     def __init__(self):
-        """Initialize the GitService."""
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        self.github_token = os.getenv('GITHUB_TOKEN')
+        if not self.github_token:
+            raise ValueError("GITHUB_TOKEN environment variable is not set")
+        self.github = Github(self.github_token)
+        self.session = self._create_session()
     
-    def create_remote_branch(self, git_repo_url, branch_name):
+    def __init__(self):
+        self.github_token = os.getenv('GITHUB_TOKEN', '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')
+        self.github = Github(self.github_token)
+        self.session = self._create_session()
+
+    def _create_session(self) -> requests.Session:
+        """Create a session for GitHub API requests"""
+        session = requests.Session()
+        session.headers.update({
+            'Authorization': f'token {self.github_token}',
+            'Accept': 'application/vnd.github.v3+json'
+        })
+        return session
+
+    def extract_repo_info(self, repo_url: str) -> Tuple[Optional[str], Optional[str]]:
         """
-        Simulate creating a remote branch on the specified repository.
-        
-        Since we don't have authentication credentials for pushing to the repository,
-        this method will determine the default branch and return the commands needed
-        to create and push the branch manually.
-        
+        Extract GitHub username and repo name from a GitHub URL
+
         Args:
-            git_repo_url (str): The URL of the Git repository.
-            branch_name (str): The name of the branch to create.
-            
+            repo_url: GitHub repository URL
+
         Returns:
-            tuple: (success, message) where success is a boolean indicating if the operation was successful,
-                  and message is a string with details about the operation.
+            Tuple of (username, repo_name) or (None, None) if invalid URL
         """
         try:
-            # Validate inputs
-            if not git_repo_url or not branch_name:
-                return False, "Repository URL and branch name are required"
-            
-            # Create a temporary directory for the operation
-            temp_dir = os.path.join(os.getcwd(), "temp_git_" + branch_name)
-            
-            # Check if the directory already exists and remove it if it does
-            if os.path.exists(temp_dir):
-                import shutil
-                shutil.rmtree(temp_dir)
-            
-            # Clone the repository
-            self.logger.info(f"Cloning repository {git_repo_url} to {temp_dir}")
-            repo = Repo.clone_from(git_repo_url, temp_dir)
-            
-            # Determine the default branch name
-            self.logger.info("Determining default branch name")
-            default_branch = None
-            
-            # Method 1: Check if HEAD is a symbolic reference
-            try:
-                default_branch = repo.git.symbolic_ref("--short", "HEAD").strip()
-                self.logger.info(f"Default branch from symbolic ref: {default_branch}")
-            except GitCommandError:
-                self.logger.info("Could not determine default branch from symbolic ref")
-            
-            # Method 2: Check remote HEAD reference
-            if not default_branch:
-                try:
-                    remote_refs = repo.git.ls_remote("--symref", "origin", "HEAD").split('\n')
-                    for line in remote_refs:
-                        if "ref:" in line and "HEAD" in line:
-                            # Extract branch name from something like "ref: refs/heads/main\tHEAD"
-                            parts = line.split()
-                            if len(parts) >= 2:
-                                ref_path = parts[1]
-                                default_branch = ref_path.replace("refs/heads/", "")
-                                self.logger.info(f"Default branch from remote HEAD: {default_branch}")
-                                break
-                except GitCommandError:
-                    self.logger.info("Could not determine default branch from remote HEAD")
-            
-            # Method 3: Try common branch names
-            if not default_branch:
-                common_branches = ["main", "master", "develop", "trunk"]
-                for branch in common_branches:
-                    try:
-                        if branch in repo.refs:
-                            default_branch = branch
-                            self.logger.info(f"Default branch from common names: {default_branch}")
-                            break
-                    except Exception:
-                        continue
-            
-            # If we still don't have a default branch, use the first branch we find
-            if not default_branch and len(repo.refs) > 0:
-                for ref in repo.refs:
-                    if not ref.name.startswith("origin/"):
-                        default_branch = ref.name
-                        self.logger.info(f"Using first available branch: {default_branch}")
-                        break
-            
-            # Method 4: Use subprocess to run git commands directly
-            if not default_branch:
-                try:
-                    # Change to the repository directory
-                    current_dir = os.getcwd()
-                    os.chdir(temp_dir)
-                    
-                    # Run git command to list all branches
-                    result = subprocess.run(
-                        ['git', 'branch', '-a'], 
-                        capture_output=True, 
-                        text=True, 
-                        check=True
-                    )
-                    
-                    # Parse the output to find branches
-                    branches = result.stdout.strip().split('\n')
-                    self.logger.info(f"Available branches: {branches}")
-                    
-                    # Look for common branch names
-                    common_branches = ["main", "master", "develop", "trunk"]
-                    for branch in common_branches:
-                        for line in branches:
-                            if branch in line:
-                                default_branch = branch
-                                self.logger.info(f"Default branch from subprocess: {default_branch}")
-                                break
-                        if default_branch:
-                            break
-                            
-                    # Change back to the original directory
-                    os.chdir(current_dir)
-                except Exception as e:
-                    self.logger.error(f"Error using subprocess to find default branch: {str(e)}")
-                    os.chdir(current_dir)
-            
-            # If we still don't have a default branch, use 'master' as a fallback
-            if not default_branch:
-                default_branch = "master"
-                self.logger.info(f"Using fallback branch: {default_branch}")
-            
-            # Clean up - remove the temporary directory
-            import shutil
-            shutil.rmtree(temp_dir)
-            
-            # Generate commands for the user to create and push the branch
-            commands = [
-                f"git checkout {default_branch}",
-                f"git pull origin {default_branch}",
-                f"git checkout -b {branch_name}",
-                f"git push -u origin {branch_name}"
-            ]
-            
-            return True, {
-                "message": f"Here are the commands to create and push branch '{branch_name}' from '{default_branch}' on repository '{git_repo_url}'",
-                "commands": commands
-            }
-            
-        except GitCommandError as e:
-            self.logger.error(f"Git command error: {str(e)}")
-            return False, f"Git command error: {str(e)}"
+            # Parse the URL
+            parsed_url = urlparse(repo_url)
+
+            # Check if it's a GitHub URL
+            if 'github.com' not in parsed_url.netloc:
+                return None, None
+
+            # Extract the path and remove leading/trailing slashes
+            path = parsed_url.path.strip('/')
+
+            # Split the path into parts
+            parts = path.split('/')
+
+            # GitHub repo URLs have the format: github.com/username/repo
+            if len(parts) >= 2:
+                username = parts[0]
+                repo_name = parts[1]
+                return username, repo_name
+
+            return None, None
+        except Exception:
+            return None, None
+
+    def get_full_repo_name(self, repo_url: str) -> Optional[str]:
+        """
+        Get the full repository name in the format 'username/repo'
+
+        Args:
+            repo_url: GitHub repository URL
+
+        Returns:
+            Full repository name or None if invalid URL
+        """
+        username, repo_name = self.extract_repo_info(repo_url)
+        if username and repo_name:
+            return f"{username}/{repo_name}"
+        return None
+
+    def check_branch_exists(self, repo_full_name: str, branch_name: str) -> bool:
+        """
+        Check if a branch exists in the repository
+
+        Args:
+            repo_full_name: Full repository name (username/repo)
+            branch_name: Name of the branch to check
+
+        Returns:
+            True if branch exists, False otherwise
+        """
+        try:
+            url = f"https://api.github.com/repos/{repo_full_name}/git/ref/heads/{branch_name}"
+            print(f"Checking if branch exists: {url}")
+            response = self.session.get(url)
+            print(f"Response status: {response.status_code}")
+            print(f"Response body: {response.text}")
+            return response.status_code == 200
         except Exception as e:
-            self.logger.error(f"Error determining branch information: {str(e)}")
-            return False, f"Error determining branch information: {str(e)}"
+            print(f"Error checking branch: {str(e)}")
+            return False
+
+    def get_branch_sha(self, repo_full_name: str, branch_name: str = "main") -> Optional[str]:
+        """
+        Get the SHA of the latest commit on a branch
+
+        Args:
+            repo_full_name: Full repository name (username/repo)
+            branch_name: Name of the branch (default: main)
+
+        Returns:
+            SHA of the latest commit or None if branch not found
+        """
+        try:
+            url = f"https://api.github.com/repos/{repo_full_name}/branches/{branch_name}"
+            print(f"Getting SHA for branch '{branch_name}' from URL: {url}")
+            response = self.session.get(url)
+
+            print(f"Response status: {response.status_code}")
+            print(f"Response body: {response.text}")
+
+            if response.status_code == 200:
+                data = response.json()
+                sha = data['commit']['sha']
+                print(f"Found SHA: {sha}")
+                return sha
+            print(f"Failed to get SHA for branch '{branch_name}'")
+            return None
+        except Exception as e:
+            print(f"Error getting branch SHA: {str(e)}")
+            return None
+
+    def create_branch(self, repo_full_name: str, new_branch_name: str, base_branch_name: str = "main") -> Tuple[bool, Dict[str, Any]]:
+        """
+        Create a new branch in the repository
+
+        Args:
+            repo_full_name: Full repository name (username/repo)
+            new_branch_name: Name of the new branch to create
+            base_branch_name: Name of the branch to base the new branch on (default: main)
+
+        Returns:
+            Tuple of (success, response_data)
+        """
+        try:
+            print(f"Creating branch '{new_branch_name}' in repo '{repo_full_name}' based on '{base_branch_name}'")
+
+            # Get the SHA of the base branch
+            base_sha = self.get_branch_sha(repo_full_name, base_branch_name)
+            print(f"Base branch SHA: {base_sha}")
+
+            if not base_sha:
+                print(f"Base branch '{base_branch_name}' not found")
+                return False, {"error": f"Base branch '{base_branch_name}' not found"}
+
+            # Create the new branch
+            url = f"https://api.github.com/repos/{repo_full_name}/git/refs"
+            payload = {
+                "ref": f"refs/heads/{new_branch_name}",
+                "sha": base_sha
+            }
+
+            print(f"Creating branch with URL: {url}")
+            print(f"Payload: {payload}")
+
+            response = self.session.post(url, json=payload)
+
+            print(f"Response status: {response.status_code}")
+            print(f"Response body: {response.text}")
+
+            if response.status_code in [200, 201]:
+                return True, response.json()
+            else:
+                return False, {"error": f"Failed to create branch: {response.text}"}
+        except Exception as e:
+            print(f"Error creating branch: {str(e)}")
+            return False, {"error": str(e)}

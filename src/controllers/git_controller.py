@@ -4,80 +4,69 @@ from services.git_service import GitService
 git_blueprint = Blueprint('git', __name__)
 git_service = GitService()
 
-@git_blueprint.route('/startDevelopment', methods=['POST'])
-def start_development():
+@git_blueprint.route('/git/create-branch', methods=['POST'])
+def create_branch():
     """
-    Endpoint to start development by creating a new remote branch.
-    
-    Expects:
-    - gitRepo: URL of the Git repository
-    - branchNm: Name of the branch to create
-    
+    Create a new branch in a GitHub repository
+
+    Request body should contain:
+    - repoUrl: The GitHub repository URL
+    - username: The GitHub username to use in the branch name
+    - branchOff: (Optional) The branch to base the new branch on (default: main)
+    - branchTo: (Optional) The name of the new branch (default: {username}-{branchOff})
+
     Returns:
-    - JSON response with success status, message, and commands to execute
+        JSON response with success message or error
     """
     try:
-        # Get request data
         data = request.get_json()
-        
+
         # Validate required fields
-        if not data:
+        required_fields = ['repoUrl', 'username']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+
+        repo_url = data['repoUrl']
+        username = data['username']
+        branch_off = data.get('branchOff', 'main')
+
+        # Get the full repo name (username/repo)
+        repo_full_name = git_service.get_full_repo_name(repo_url)
+        if not repo_full_name:
+            return jsonify({'error': 'Invalid GitHub repository URL'}), 400
+
+        # Create the branch name in the format username-main or use provided branchTo
+        new_branch_name = data.get('branchTo', f"{username}-{branch_off}")
+
+        # Check if branch already exists
+        if git_service.check_branch_exists(repo_full_name, new_branch_name):
+            # Branch already exists, return success with a message
             return jsonify({
-                'success': False,
-                'error': {
-                    'code': 'MISSING_DATA',
-                    'message': 'No data provided',
-                    'details': None
-                }
-            }), 400
-            
-        git_repo = data.get('gitRepo')
-        branch_name = data.get('branchNm')
-        
-        if not git_repo:
-            return jsonify({
-                'success': False,
-                'error': {
-                    'code': 'MISSING_REPO',
-                    'message': 'Git repository URL is required',
-                    'details': None
-                }
-            }), 400
-            
-        if not branch_name:
-            return jsonify({
-                'success': False,
-                'error': {
-                    'code': 'MISSING_BRANCH',
-                    'message': 'Branch name is required',
-                    'details': None
-                }
-            }), 400
-        
-        # Create the remote branch
-        success, result = git_service.create_remote_branch(git_repo, branch_name)
-        
+                'message': f"Branch '{new_branch_name}' already exists",
+                'branchName': new_branch_name,
+                'alreadyExists': True,
+                'gitCommands': [
+                    f"git fetch origin {new_branch_name}",
+                    f"git checkout {new_branch_name}"
+                ]
+            }), 200
+
+        # Create the branch
+        success, response = git_service.create_branch(repo_full_name, new_branch_name, branch_off)
+
         if success:
             return jsonify({
-                'success': True,
-                'data': result
+                'message': f"Branch '{new_branch_name}' created successfully",
+                'branchName': new_branch_name,
+                'alreadyExists': False,
+                'gitCommands': [
+                    f"git fetch origin {new_branch_name}",
+                    f"git checkout {new_branch_name}"
+                ]
             }), 201
         else:
-            return jsonify({
-                'success': False,
-                'error': {
-                    'code': 'BRANCH_CREATION_FAILED',
-                    'message': 'Failed to create remote branch',
-                    'details': result
-                }
-            }), 500
-            
+            return jsonify({'error': response.get('error', 'Failed to create branch')}), 400
+
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': {
-                'code': 'SERVER_ERROR',
-                'message': 'An unexpected error occurred',
-                'details': str(e)
-            }
-        }), 500
+        return jsonify({'error': str(e)}), 500
