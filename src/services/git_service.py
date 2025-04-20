@@ -10,6 +10,13 @@ load_dotenv()
 
 class GitService:
     def __init__(self):
+        self.github_token = os.getenv('GITHUB_TOKEN')
+        if not self.github_token:
+            raise ValueError("GITHUB_TOKEN environment variable is not set")
+        self.github = Github(self.github_token)
+        self.session = self._create_session()
+    
+    def __init__(self):
         self.github_token = os.getenv('GITHUB_TOKEN', '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')
         self.github = Github(self.github_token)
         self.session = self._create_session()
