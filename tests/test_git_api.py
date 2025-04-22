@@ -1,52 +1,74 @@
 import requests
 import json
-import time
+import sys
 
-def test_start_development():
-    """
-    Test the startDevelopment API endpoint.
-    """
-    # API endpoint
-    url = "http://localhost:5000/api/startDevelopment"
+# Try both ports 5000 and 5001
+def get_base_url():
+    # Try port 5000 first
+    try:
+        response = requests.get("http://localhost:5000")
+        return "http://localhost:5000/api"
+    except requests.exceptions.ConnectionError:
+        # Try port 5001
+        try:
+            response = requests.get("http://localhost:5001")
+            return "http://localhost:5001/api"
+        except requests.exceptions.ConnectionError:
+            # Default to 5000 if neither is available
+            return "http://localhost:5000/api"
 
-    # Test data - replace with your actual repository URL and branch name
-    data = {
-        "gitRepo": "https://github.com/servicehadcode/pangea-gitFlow-test.git",
-        "branchNm": f"feature/test-branch-{int(time.time())}"
+BASE_URL = get_base_url()
+
+def test_create_branch():
+    """Test the create-branch endpoint"""
+    url = f"{BASE_URL}/git/create-branch"
+
+    # Use a valid GitHub repository URL
+    repo_url = "https://github.com/servicehadcode/pangea-gitFlow-test"
+
+    # Generate a unique branch name for testing
+    import random
+    new_branch_name = f"test-branch-{random.randint(1000, 9999)}"
+
+    payload = {
+        "repoUrl": repo_url,
+        "username": "testuser",
+        "branchOff": "main",
+        "branchTo": new_branch_name  # Use the generated branch name
     }
 
-    # Make the request
-    print(f"Sending request to {url} with data: {json.dumps(data, indent=2)}")
-    response = requests.post(url, json=data)
+    print(f"Testing create-branch endpoint with payload:\n{json.dumps(payload, indent=2)}")
 
-    # Print the response
-    print(f"Status code: {response.status_code}")
-    print(f"Response: {json.dumps(response.json(), indent=2)}")
+    try:
+        response = requests.post(url, json=payload, timeout=10)
 
-    # Check if the request was successful
-    if response.status_code == 201:
-        print("✅ API call successful")
+        print(f"Status Code: {response.status_code}")
+        print(f"Response:\n{json.dumps(response.json(), indent=2)}")
 
-        # Check if the response has the expected structure
-        response_data = response.json()
-        if response_data.get('success') and 'data' in response_data:
-            print("✅ Response has the expected structure")
+        if response.status_code in [200, 201]:
+            print("\n✅ SUCCESS: Branch creation API works!")
 
-            # Check if the data contains the message and commands
-            data = response_data.get('data')
-            if 'message' in data and 'commands' in data:
-                print("✅ Response contains message and commands")
+            # Print the Git commands for the user
+            data = response.json()
+            if 'gitCommands' in data:
+                print("\nGit commands to use the branch:")
+                for cmd in data['gitCommands']:
+                    print(f"  $ {cmd}")
 
-                # Print the commands
-                print("\nCommands to execute:")
-                for i, command in enumerate(data['commands']):
-                    print(f"{i+1}. {command}")
-            else:
-                print("❌ Response is missing message or commands")
+            return True
         else:
-            print("❌ Response does not have the expected structure")
-    else:
-        print("❌ API call failed")
+            print("\n❌ FAILURE: Branch creation API failed")
+            return False
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return False
 
 if __name__ == "__main__":
-    test_start_development()
+    print("Testing Git API - Create Branch")
+    print("=" * 50)
+
+    if test_create_branch():
+        print("\nTest completed successfully!")
+    else:
+        print("\nTest failed!")
+        sys.exit(1)
