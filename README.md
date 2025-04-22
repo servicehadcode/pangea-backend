@@ -723,6 +723,132 @@ This API provides endpoints for managing problem instances and subtasks.
 }
 ```
 
+### Git endpoints
+
+#### 1. Create Branch
+- **Endpoint:** `POST /api/git/create-branch`
+- **Description:** Creates a new branch in a GitHub repository
+- **Headers:** `Content-Type: application/json`
+- **Request Body:**
+```json
+{
+  "repoUrl": "https://github.com/username/repository",
+  "username": "johndoe",
+  "branchOff": "main",
+  "branchTo": "johndoe-main"
+}
+```
+
+- **Parameters:**
+  - `repoUrl` (required): The GitHub repository URL
+  - `username` (required): The GitHub username to use in the branch name
+  - `branchOff` (optional): The branch to base the new branch on (default: main)
+  - `branchTo` (optional): The name of the new branch (default: {username}-{branchOff})
+
+- **Success Response (201 Created):**
+```json
+{
+  "message": "Branch 'johndoe-main' created successfully",
+  "branchName": "johndoe-main",
+  "alreadyExists": false,
+  "gitCommands": [
+    "git clone -b johndoe-main --single-branch https://github.com/username/repository"
+  ]
+}
+```
+
+- **Success Response (200 OK) - Branch Already Exists:**
+```json
+{
+  "message": "Branch 'johndoe-main' already exists",
+  "branchName": "johndoe-main",
+  "alreadyExists": true,
+  "gitCommands": [
+    "git clone -b johndoe-main --single-branch https://github.com/username/repository"
+  ]
+}
+```
+
+- **Error Response (400 Bad Request):**
+```json
+{
+  "error": "Missing required field: repoUrl"
+}
+```
+
+```json
+{
+  "error": "Invalid GitHub repository URL"
+}
+```
+
+```json
+{
+  "error": "Base branch 'main' not found"
+}
+```
+
+- **Error Response (500 Internal Server Error):**
+```json
+{
+  "error": "Error message details"
+}
+```
+
+#### 2. Create Pull Request
+- **Endpoint:** `POST /api/git/create-pr`
+- **Description:** Creates a new pull request and returns the PR details including the diff
+- **Headers:** `Content-Type: application/json`
+- **Request Body:**
+```json
+{
+  "repoUrl": "https://github.com/username/repository",
+  "head": "feature-branch",
+  "base": "main",
+  "title": "My pull request title"
+}
+```
+
+- **Parameters:**
+  - `repoUrl` (required): The GitHub repository URL
+  - `head` (required): The name of the branch where your changes are implemented
+  - `base` (required): The name of the branch you want the changes pulled into
+  - `title` (required): The title of the pull request
+
+- **Success Response (201 Created):**
+```json
+{
+  "pr_title": "My pull request title",
+  "pr_number": 42,
+  "pr_diff": "diff --git a/file.txt b/file.txt\nindex abc123..def456 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,4 @@\n Line 1\n+Added line\n Line 2\n Line 3"
+}
+```
+
+- **Error Response (400 Bad Request):**
+```json
+{
+  "error": "Missing required field: head"
+}
+```
+
+```json
+{
+  "error": "Invalid GitHub repository URL"
+}
+```
+
+```json
+{
+  "error": "Failed to create pull request: Not Found"
+}
+```
+
+- **Error Response (500 Internal Server Error):**
+```json
+{
+  "error": "Error message details"
+}
+```
 
 
 ## Development
@@ -742,5 +868,5 @@ This API provides endpoints for managing problem instances and subtasks.
 
 # Pangea Context API
 
-chmod +x run.sh 
+chmod +x run.sh
 ./run.sh
