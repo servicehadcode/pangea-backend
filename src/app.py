@@ -7,6 +7,7 @@ from controllers.git_controller import git_blueprint
 from controllers.problem_instance_controller import problem_instance_blueprint
 from controllers.subtask_instance_controller import subtask_instance_blueprint
 from controllers.discussion_controller import discussion_blueprint
+from controllers.feedback_controller import feedback_blueprint
 from controllers.auth_controller import auth_bp
 from config import Config
 from services.mongo_service import mongo_service
@@ -44,6 +45,7 @@ app.register_blueprint(git_blueprint, url_prefix='/api')
 app.register_blueprint(problem_instance_blueprint, url_prefix='/api')
 app.register_blueprint(subtask_instance_blueprint, url_prefix='/api')
 app.register_blueprint(discussion_blueprint, url_prefix='/api')
+app.register_blueprint(feedback_blueprint, url_prefix='/api')
 
 # Initialize services (like MongoDB) after context is available
 def initialize_services():

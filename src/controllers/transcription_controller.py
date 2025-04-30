@@ -75,20 +75,3 @@ def transcribe_audio():
                 'details': str(e)
             }
         }), 500
-    
-@transcription_blueprint.route('/v1/transcribe/evaluate', methods=['POST'])
-def evaluate_answer():
-    try:
-        data = request.get_json()
-        question = data.get('question')
-        transcribed_text = data.get('transcribedText')
-
-        if not question or not transcribed_text:
-            return jsonify({"error": "Missing question or transcribedText"}), 400
-
-        feedback = transcription_service.generate_feedback(question, transcribed_text)
-        return jsonify(feedback)
-
-    except Exception as e:
-        print(f"Error in evaluate_answer: {e}")
-        return jsonify({"error": "Internal server error"}), 500
