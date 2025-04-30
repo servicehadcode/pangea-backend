@@ -6,11 +6,11 @@ from controllers.transcription_controller import transcription_blueprint
 from controllers.git_controller import git_blueprint
 from controllers.problem_instance_controller import problem_instance_blueprint
 from controllers.subtask_instance_controller import subtask_instance_blueprint
-from controllers.subtask_instance_controller import subtask_instance_blueprint
 from controllers.discussion_controller import discussion_blueprint
 from controllers.auth_controller import auth_bp
 from config import Config
 from services.mongo_service import mongo_service
+
 # Initialize Flask app
 app = Flask(__name__)
 app.config.from_object(Config)
