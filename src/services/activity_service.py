@@ -1,18 +1,64 @@
-import requests
-from flask import current_app, session, redirect, url_for
+from flask import current_app, session, url_for
 from authlib.integrations.flask_client import OAuth
 from services.mongo_service import mongo_service
-from datetime import datetime
 
 def log_user_activity(user_data, activity_type):
-        activity_record = {
-            "username": user_data.get("username"),
-            "email": user_data.get("email"),
-            "activity": activity_type,
-            "timestamp": datetime.utcnow()  # Or datetime.utcnow()
-        }
-        mongo_service.db.activity_logs.insert_one(activity_record)
-        print(f"Logged activity: {activity_record}")
+    from models.user_activity_model import create_user_activity
+    from flask import current_app
+
+    try:
+        # Check if MongoDB service is initialized
+        db_initialized = mongo_service.db is not None
+        user_activity_initialized = mongo_service.user_activity is not None
+
+        if hasattr(current_app, 'logger'):
+            current_app.logger.info(f"MongoDB initialization status: db={db_initialized}, user_activity={user_activity_initialized}")
+        else:
+            print(f"MongoDB initialization status: db={db_initialized}, user_activity={user_activity_initialized}")
+
+        if db_initialized and user_activity_initialized:
+            # Use the same collection as in auth_controller
+            activity_record = create_user_activity(user_data, activity_type)
+
+            # Log the activity record for debugging
+            if hasattr(current_app, 'logger'):
+                current_app.logger.info(f"Activity record to insert: {activity_record}")
+            else:
+                print(f"Activity record to insert: {activity_record}")
+
+            # Insert the record
+            result = mongo_service.user_activity.insert_one(activity_record)
+
+            # Log the result
+            if hasattr(current_app, 'logger'):
+                current_app.logger.info(f"Logged activity with ID: {result.inserted_id}")
+            else:
+                print(f"Logged activity with ID: {result.inserted_id}")
+
+            # Verify the document was inserted
+            verification = mongo_service.user_activity.find_one({"_id": result.inserted_id})
+            if hasattr(current_app, 'logger'):
+                current_app.logger.info(f"Verification of inserted document: {verification is not None}")
+            else:
+                print(f"Verification of inserted document: {verification is not None}")
+
+            return True
+        else:
+            if hasattr(current_app, 'logger'):
+                current_app.logger.warning("MongoDB service not fully initialized, skipping activity logging")
+            else:
+                print("MongoDB service not fully initialized, skipping activity logging")
+            return False
+    except Exception as e:
+        if hasattr(current_app, 'logger'):
+            current_app.logger.error(f"Failed to log user activity: {str(e)}")
+            import traceback
+            current_app.logger.error(traceback.format_exc())
+        else:
+            print(f"Failed to log user activity: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
+        return False
 
 class GitHubAuthService:
     def __init__(self):
@@ -38,7 +84,7 @@ class GitHubAuthService:
         # After successful authorization, log the login activity
         token = self.github.authorize_access_token()
         resp = self.github.get('user', token=token)
-        
+
         user_info = {
             'github_id': str(resp.json().get('id')),
             'username': resp.json().get('login'),
@@ -60,6 +106,6 @@ class GitHubAuthService:
         else:
             # If there's no user data, log it or handle the error gracefully
             print("No user data found in session for logout.")
-        
+
         # Clear the session after logging out
         session.clear()  # Ensure session is cleared properly
