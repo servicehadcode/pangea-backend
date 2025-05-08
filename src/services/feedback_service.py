@@ -2,6 +2,8 @@ import os
 import speech_recognition as sr
 from werkzeug.utils import secure_filename
 import openai
+import json
+import re
 
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
@@ -11,7 +13,7 @@ class FeedbackService:
         self.recognizer = sr.Recognizer()
         self.allowed_formats = {'wav'}
         self.max_file_size = 10 * 1024 * 1024  # 10MB limit
-    
+
     def build_prompt(self, mode, question, text):
         if mode == "pr":
             return f"""
@@ -58,3 +60,39 @@ class FeedbackService:
         except Exception as e:
             print(f"Error calling OpenAI: {e}")
             return {"error": "Feedback generation failed. Please try again later."}
+
+    def clean_json_response(self, response_text):
+        """
+        Clean up a JSON string response from OpenAI to ensure it's properly formatted.
+
+        Args:
+            response_text (str): The raw response from OpenAI
+
+        Returns:
+            dict: Parsed JSON object
+        """
+        # Try to extract JSON if it's wrapped in other text
+        json_match = re.search(r'(\{.*\})', response_text, re.DOTALL)
+        if json_match:
+            json_str = json_match.group(1)
+        else:
+            json_str = response_text
+
+        # Remove escape characters
+        json_str = json_str.replace('\\n', ' ').replace('\\', '')
+
+        try:
+            # Parse the JSON
+            return json.loads(json_str)
+        except json.JSONDecodeError:
+            # If parsing fails, return a default structure
+            return {
+                "feedback": [
+                    {
+                        "id": "feedback-error",
+                        "comment": "Could not parse feedback. Original response: " + response_text[:100] + "...",
+                        "author": "System",
+                        "resolved": False
+                    }
+                ]
+            }

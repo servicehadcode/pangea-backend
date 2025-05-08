@@ -45,10 +45,13 @@ def generate_pr_feedback():
             return jsonify({"error": "Missing prText"}), 400
 
         prompt = feedback_service.build_prompt(mode="pr", question="", text=pr_text)
-        feedback = feedback_service.generate_feedback(prompt)
-        return jsonify(feedback)
+        feedback_text = feedback_service.generate_feedback(prompt)
+
+        # Clean and parse the JSON response
+        cleaned_feedback = feedback_service.clean_json_response(feedback_text)
+        return jsonify(cleaned_feedback)
 
     except Exception as e:
         print(f"Error in evaluate_answer: {e}")
         return jsonify({"error": "Internal server error"}), 500
-    
+
